@@ -14,7 +14,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $event = Event::with('user' , 'attendees')->get();
+        $event = Event::with('user', 'attendees')->get();
         return EventResource::collection($event);
     }
 
@@ -23,13 +23,13 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $event = Event::create([
             ...$request->validate([
-            'name' => 'required',
-            'description' => 'nullable|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time'
+                'name' => 'required',
+                'description' => 'nullable|string',
+                'start_time' => 'required|date',
+                'end_time' => 'required|date|after:start_time'
             ]),
             'user_id' => 1
         ]);
@@ -42,8 +42,8 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load('user' , 'attendees');
-       return new EventResource($event);
+        $event->load('user', 'attendees');
+        return new EventResource($event);
     }
 
     /**
@@ -51,16 +51,16 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-         $event->update(
+        $event->update(
             $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'description' => 'nullable|string',
-            'start_time' => 'sometimes|date',
-            'end_time' => 'sometimes|date|after:start_time'
-        ])
-    );
+                'name' => 'sometimes|string|max:255',
+                'description' => 'nullable|string',
+                'start_time' => 'sometimes|date',
+                'end_time' => 'sometimes|date|after:start_time'
+            ])
+        );
 
-        return new EventResource($event) ;
+        return new EventResource($event);
     }
 
     /**
